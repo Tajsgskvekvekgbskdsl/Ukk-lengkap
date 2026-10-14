@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnggotaController;
+use App\Http\Controllers\KartuAnggotaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\DashboardController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\PengembalianController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RiwayatController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TransaksiController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,7 +25,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [KatalogController::class, 'beranda'])->name('beranda');
 Route::get('/katalog', [KatalogController::class, 'katalog'])->name('katalog');
 Route::get('/katalog/{buku}', [KatalogController::class, 'show'])->name('buku.detail');
-Route::get('/tentang', fn () => view('site.tentang'))->name('tentang');
+Route::get('/tentang', [\App\Http\Controllers\TentangController::class, '__invoke'])->name('tentang');
 
 /*
 |--------------------------------------------------------------------------
@@ -61,8 +63,12 @@ Route::middleware(['auth', 'admin'])
         // Parameter dipaksa bernama 'anggota'.
         Route::resource('anggota', AnggotaController::class)->parameters(['anggota' => 'anggota']);
 
-        // CRUD Transaksi
+                // CRUD Transaksi
         Route::resource('transaksi', TransaksiController::class);
+
+        // Pengaturan global (settings)
+        Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');
+        Route::put('settings', [SettingsController::class, 'update'])->name('settings.update');
 
         // History seluruh transaksi
         Route::get('/history', [HistoryController::class, 'index'])->name('history');
@@ -83,7 +89,7 @@ Route::middleware(['auth', 'admin'])
 Route::middleware(['auth', 'user'])
     ->name('user.')
     ->group(function () {
-        // Peminjaman Saya + aksi pinjam
+                // Peminjaman Saya + aksi pinjam
         Route::get('/peminjaman-saya', [PeminjamanController::class, 'index'])->name('peminjaman.index');
         Route::post('/peminjaman', [PeminjamanController::class, 'store'])->name('peminjaman.store');
 
@@ -93,6 +99,11 @@ Route::middleware(['auth', 'user'])
 
         // History milik sendiri
         Route::get('/history', [RiwayatController::class, 'index'])->name('riwayat.index');
+
+        // Kartu anggota (Pelajar / Mahasiswa)
+        Route::get('/kartu', [KartuAnggotaController::class, 'edit'])->name('kartu.edit');
+        Route::put('/kartu', [KartuAnggotaController::class, 'update'])->name('kartu.update');
+        Route::delete('/kartu', [KartuAnggotaController::class, 'destroy'])->name('kartu.destroy');
     });
 
 /*

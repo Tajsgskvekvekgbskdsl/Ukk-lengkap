@@ -1,4 +1,4 @@
-@extends(auth()->user()->isAdmin() ? 'layouts.app' : 'layouts.site')
+﻿@extends(auth()->user()->isAdmin() ? 'layouts.app' : 'layouts.site')
 
 @section('title', 'Profil Saya')
 
@@ -15,21 +15,40 @@
         <div class="col-md-9 col-lg-7">
             <div class="card mb-4" style="box-shadow: var(--shadow-halus);">
                 <div class="card-body p-4">
-                    {{-- Avatar inisial + identitas singkat --}}
-                    <div class="d-flex align-items-center gap-3 mb-4">
-                        <div class="stat-icon green mb-0" style="width:56px;height:56px;font-size:1.6rem;">
-                            {{ strtoupper(substr($user->nama_lengkap, 0, 1)) }}
-                        </div>
-                        <div>
-                            <h5 class="fw-bold mb-0">{{ $user->nama_lengkap }}</h5>
-                            <small class="text-muted">{{ $user->username }}</small>
-                        </div>
-                        @if(!$user->isAdmin())
-                            <span class="badge-soft green ms-auto">Anggota</span>
-                        @else
-                            <span class="badge-soft blue ms-auto">Admin</span>
-                        @endif
+                            <div class="d-flex align-items-center gap-3 mb-4">
+            <div class="position-relative mb-0" style="width:56px;height:56px;">
+                @if ($user->foto && $user->url_foto)
+                    <img src="{{ $user->url_foto }}" alt="Foto profil"
+                         class="rounded-circle mb-0 object-fit-cover"
+                         style="width:56px;height:56px;object-fit:cover;border:2px solid var(--bs-success);">
+                @else
+                    <div class="stat-icon green mb-0 d-flex align-items-center justify-content-center"
+                         style="width:56px;height:56px;font-size:1.6rem;border-radius:50%;">
+                        {{ strtoupper(substr($user->nama_lengkap ?? $user->username ?? '?', 0, 1)) }}
                     </div>
+                @endif
+            </div>
+
+            <div class="flex-grow-1">
+                <h5 class="fw-bold mb-0">{{ $user->nama_lengkap }}</h5>
+                <small class="text-muted">{{ $user->username }}</small>
+
+                @if (!$user->isAdmin())
+                    @php
+                        $kartu = $user->getKartu();
+                        $label = ['normal' => 'Normal', 'pelajar' => 'Pelajar', 'mahasiswa' => 'Mahasiswa'][$kartu->jenis] ?? 'Normal';
+                    @endphp
+                    <div class="mt-1">
+                        <span class="badge bg-success bg-opacity-10 text-success small">{{ $label }}</span>
+                        <a href="{{ route('user.kartu.edit') }}" class="text-muted small text-decoration-underline">Kartu</a>
+                    </div>
+
+                    <div class="mt-2 fw-medium">Denda: Rp{{ number_format($user->dendeTunggakUser, 0, ',', '.') }}</div>
+                @else
+                    <span class="badge-soft blue ms-auto">Admin</span>
+                @endif
+            </div>
+        </div>
 
                     <dl class="row detail-info mb-0">
                         <dt class="col-sm-4">Nama Lengkap</dt>

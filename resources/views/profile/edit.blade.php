@@ -15,7 +15,7 @@
                     </div>
                 @endif
 
-                <form method="POST" action="{{ route('user.profile.update') }}">
+                <form method="POST" action="{{ route('user.profile.update') }}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 
@@ -47,7 +47,21 @@
                                 @error('alamat')<div class="invalid-feedback">{{ $message }}</div>@enderror
                             </div>
                         </div>
-                    @endif
+                                        @endif
+
+                    <div class="mb-3">
+                        <label class="form-label">Foto Profil</label>
+                        <input type="file" name="foto"
+                               class="form-control form-control-sm @error('foto') is-invalid @enderror"
+                               accept="image/jpeg,image/png">
+                        <small class="text-muted d-block mt-1">JPG / PNG, maksimal 2 MB. Biarkan kosong untuk tidak mengganti.</small>
+                        @if ($user->foto)
+                            <div class="mt-2 d-flex align-items-center gap-2">
+                                <img src="{{ $user->url_foto }}" alt="Foto profil" class="rounded-circle"
+                                     style="width:48px;height:48px;object-fit:cover;">
+                            </div>
+                        @endif
+                    </div>
 
                     <div class="d-flex gap-2 mt-4">
                         <button type="submit" class="btn btn-green"><i class="bi bi-save"></i> Simpan</button>

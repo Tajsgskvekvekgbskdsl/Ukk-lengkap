@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login — Perpustakaan</title>
+        <title>Login — {{ \App\Models\Setting::siteName() }}</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,7 +21,7 @@
             <div class="auth-card">
                 <a href="{{ route('beranda') }}" class="auth-brand">
                     <span class="brand-mark"><i class="bi bi-book-half"></i></span>
-                    <span class="brand-text">Perpustakaan</span>
+                                        <span class="brand-text">{{ \App\Models\Setting::siteName() }}</span>
                 </a>
 
                 <h1 class="auth-title">Login</h1>

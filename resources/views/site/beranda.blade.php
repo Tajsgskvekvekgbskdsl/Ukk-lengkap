@@ -1,6 +1,8 @@
 @extends('layouts.site')
 
-@section('title', 'Perpustakaan')
+@section('title')
+{{ \App\Models\Setting::siteName() }}
+@endsection
 
 @section('meta_description', 'Perpustakaan online untuk mencari koleksi buku, melihat informasi buku, dan mengakses layanan perpustakaan.')
 
@@ -13,7 +15,7 @@
                     <span class="hero-eyebrow"><i class="bi bi-stars"></i> Sistem Informasi Perpustakaan</span>
                     <h1 class="hero-title">
                         Selamat Datang di<br>
-                        <span class="hl">Perpustakaan</span>
+                                                <span class="hl">{{ \App\Models\Setting::siteName() }}</span>
                     </h1>
                     <p class="hero-subtitle">
                         Cari buku lewat katalog daring, pinjam dengan mudah, dan
@@ -125,7 +127,7 @@
                     <div class="col-md-4">
                         <div class="stat-icon blue mb-2"><i class="bi bi-journal-check"></i></div>
                         <h6 class="fw-bold mb-1">Ketentuan Peminjaman</h6>
-                        <p class="small text-muted mb-0">Maksimal 7 hari per peminjaman<br>Satu judul satu anggota</p>
+                                                <p class="small text-muted mb-0">Maksimal {{ \App\Models\Setting::get('lama_peminjaman', 7) }} hari per peminjaman<br>Satu judul satu anggota</p>
                     </div>
                     <div class="col-md-4">
                         <div class="stat-icon yellow mb-2"><i class="bi bi-person-badge"></i></div>

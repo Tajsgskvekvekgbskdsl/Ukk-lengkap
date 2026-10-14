@@ -1,0 +1,13 @@
+original nama_perpustakaan = Perpustakaan cala
+siteName() = Perpustakaan cala
+get(nama_perpustakaan) = Perpustakaan cala
+get(deskripsi) len = 104
+get(denda_normal) = 2000 (type integer)
+get(denda_pelajar) = 500
+get(denda_mahasiswa) = 1000
+get(lama_peminjaman) = 7
+get(tarif_khusus_aktif) = true
+dendaConfig = {"lama_peminjaman":7,"tarif_khusus_aktif":true,"denda_normal":2000,"denda_pelajar":500,"denda_mahasiswa":1000}
+after set(TEMP TEST NAME) -> get = TEMP TEST NAME (expect: TEMP TEST NAME)
+restored -> get = Perpustakaan cala (expect: Perpustakaan cala)
+DONE

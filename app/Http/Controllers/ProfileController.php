@@ -4,15 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 /**
  * PROFIL - dipakai ADMIN dan USER.
  */
 class ProfileController extends Controller
 {
-    public function show()
+        public function show()
     {
-        $user = $this->authUser();
+        $user = $this->authUser()->loadMissing('anggota', 'kartu');
 
         return view('profile.index', compact('user'));
     }
@@ -28,16 +30,34 @@ class ProfileController extends Controller
     {
         $user = $this->authUser();
 
-        $data = $request->validate([
+                $data = $request->validate([
             'nama_lengkap' => 'required|string|max:255',
             'nis' => 'nullable|string|max:30',
             'kelas' => 'nullable|string|max:30',
             'alamat' => 'nullable|string|max:500',
+            'foto' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
         ]);
 
         $user->update([
             'nama_lengkap' => $data['nama_lengkap'],
         ]);
+
+        // Upload / ganti foto profil ke disk publik (storage/app/public).
+        if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
+            if ($user->foto && Storage::disk('public')->exists($user->foto)) {
+                Storage::disk('public')->delete($user->foto);
+            }
+
+                        $ext      = $request->file('foto')->getClientOriginalExtension();
+            // Argumen ke-1 now() adalah TIMEZONE, bukan label. Nilai 'id' bukan
+            // timezone valid -> Carbon melempar InvalidTimeZoneException.
+            // Timestamp Unix tidak butuh timezone, jadi pakai now()->timestamp.
+            $namaFile = $user->id_user . '_' . now()->timestamp . '_' . Str::random(6) . '.' . $ext;
+
+            $request->file('foto')->storeAs('foto-profiles', $namaFile, 'public');
+
+            $user->update(['foto' => 'foto-profiles/' . $namaFile]);
+        }
 
         if ($user->anggota) {
             $user->anggota->update([

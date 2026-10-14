@@ -1,0 +1,31 @@
+denda|denda_mahasiswa|integer|Tarif denda per hari untuk kartu mahasiswa.
+denda|denda_normal|integer|Tarif denda per hari untuk pengguna tanpa kartu.
+denda|denda_pelajar|integer|Tarif denda per hari untuk kartu pelajar.
+denda|tarif_khusus_aktif|boolean|Jika ON, peminjam dengan kartu dapat tarif denda khusus.
+informasi|alamat|text|Alamat lokasi perpustakaan.
+informasi|deskripsi|string|Deskripsi singkat tampil di beranda dan About.
+informasi|email|string|Email resmi perpustakaan.
+informasi|telepon|string|Nomor telepon kontak perpustakaan.
+operating_hours|closed_friday|boolean|Centang bila Jumat tutup.
+operating_hours|closed_monday|boolean|Centang bila Senin tutup.
+operating_hours|closed_saturday|boolean|Centang bila Sabtu tutup.
+operating_hours|closed_sunday|boolean|Centang bila Minggu tutup (default ON).
+operating_hours|closed_thursday|boolean|Centang bila Kamis tutup.
+operating_hours|closed_tuesday|boolean|Centang bila Selasa tutup.
+operating_hours|closed_wednesday|boolean|Centang bila Rabu tutup.
+operating_hours|closing_friday|string|Jam tutup Jumat.
+operating_hours|closing_monday|string|Jam tutup Senin.
+operating_hours|closing_saturday|string|Jam tutup Sabtu.
+operating_hours|closing_sunday|string|Jam tutup Minggu.
+operating_hours|closing_thursday|string|Jam tutup Kamis.
+operating_hours|closing_tuesday|string|Jam tutup Selasa.
+operating_hours|closing_wednesday|string|Jam tutup Rabu.
+operating_hours|opening_friday|string|Jam buka Jumat.
+operating_hours|opening_monday|string|Jam buka Senin.
+operating_hours|opening_saturday|string|Jam buka Sabtu.
+operating_hours|opening_sunday|string|Jam buka Minggu.
+operating_hours|opening_thursday|string|Jam buka Kamis.
+operating_hours|opening_tuesday|string|Jam buka Selasa.
+operating_hours|opening_wednesday|string|Jam buka Rabu.
+peminjaman|lama_peminjaman|integer|Berapa hari maksimal peminjaman satu buku.
+umum|nama_perpustakaan|string|

@@ -23,7 +23,7 @@ class PengembalianController extends Controller
     {
         $anggota = $this->authUser()->anggota;
 
-        // Paginator KOSONG (bukan collect()) — view memanggil firstItem()/links()
+        // Paginator KOSONG (bukan collect()) â€” view memanggil firstItem()/links()
         // yang hanya ada pada Paginator, bukan Collection.
         $pengembalians = Transaksi::whereRaw('1 = 0')->paginate(10);
 
@@ -67,9 +67,10 @@ class PengembalianController extends Controller
                 return;
             }
 
-            $t->update([
+                        $t->update([
                 'status' => 'dikembalikan',
                 'tgl_kembali' => now()->toDateString(),
+                'denda' => $t->hitungDenda(),
             ]);
 
             // Stok buku +1.
@@ -85,3 +86,4 @@ class PengembalianController extends Controller
             ->with('success', 'Buku berhasil dikembalikan. Terima kasih!');
     }
 }
+

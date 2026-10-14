@@ -175,13 +175,18 @@ class TransaksiController extends Controller
                 $tglKembali = now()->toDateString();
             }
 
-            $transaksi->update([
+                        $transaksi->update([
                 'id_anggota' => $data['id_anggota'],
                 'id_buku' => $newBuku->id_buku,
                 'tgl_pinjam' => $data['tgl_pinjam'],
                 'tgl_kembali' => $tglKembali,
                 'status' => $data['status'],
             ]);
+
+            // Sinkronkan denda otomatis bila di-status-kan dikembalikan lewat edit admin.
+            if ($data['status'] === 'dikembalikan') {
+                $transaksi->syncDenda();
+            }
         });
 
         return redirect()->route('admin.transaksi.index')
@@ -219,3 +224,4 @@ class TransaksiController extends Controller
         return $request->validate($rules);
     }
 }
+

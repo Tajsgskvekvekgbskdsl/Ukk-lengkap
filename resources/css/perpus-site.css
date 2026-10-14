@@ -1,0 +1,269 @@
+/* ===== perpus-site.css — tema situs (publik + user) =====
+   Melengkapi Bootstrap 5.3 (CDN). Semua properti khusus
+   (warna hijau/navy, bayangan, ikon status) didefinisikan di sini
+   supaya Blade dapat memakai class/konstanta secara konsisten. */
+
+/* ---- CSS custom properties ---- */
+:root {
+    --green: #16C94A;
+    --green-900: #0D8C3A;
+    --green-100: #DCF8E0;
+    --navy: #0F2C5E;
+    --navy-700: #1D4ED8;
+    --navy-900: #0a1f44;
+    --yellow: #FACC15;
+    --blue: #2563EB;
+    --shadow-halus: 0 12px 28px rgba(16, 24, 45, .08),
+                    0 2px 4px rgba(16, 24, 45, .04);
+    --shadow-soft: 0 4px 14px rgba(16, 24, 45, .05);
+    --radius: .75rem;
+    --radius-sm: .4rem;
+}
+
+/* ---- reset / base ---- */
+*, *::before, *::after { box-sizing: border-box; }
+.site-body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+                 Roboto, Helvetica, Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #1f2937;
+    background: #f5f7fbb8;
+    margin: 0;
+}
+a { color: var(--navy); text-decoration: none; }
+a:hover, a:focus { text-decoration: none; }
+
+/* container konsisten */
+.site-container {
+    max-width: 1180px;
+    margin-inline: auto;
+    padding-inline: 1rem;
+}
+
+/* ---- page header / body ---- */
+.page-header {
+    background: #fff;
+    border-bottom: 1px solid #e2e8f0;
+    box-shadow: var(--shadow-soft);
+}
+.page-header .site-container { padding-block: 2rem 2.25rem; }
+.page-header h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+    color: #0f172a;
+}
+.page-header p { color: #64748b; margin: .4rem 0 0; }
+.page-body { padding-block: 2rem; }
+
+/* ---- cards ---- */
+.card {
+    border: none;
+    border-radius: var(--radius);
+    background: #fff;
+    box-shadow: var(--shadow-halus);
+}
+.card-header {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    font-weight: 600;
+    color: #0f172a;
+}
+.card-sm { box-shadow: var(--shadow-soft); }
+.card-img-top { aspect-ratio: 16/9; object-fit: cover; }
+
+/* icon status */
+.stat-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: #fff;
+    flex-shrink: 0;
+}
+.stat-icon.green { background: var(--green); }
+.stat-icon.yellow { background: #eab308; }
+.stat-icon.blue { background: var(--blue); }
+
+/* ---- badges ---- */
+.badge-soft {
+    display: inline-flex;
+    align-items: center;
+    padding: .25rem .55rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: .8rem;
+}
+.badge-soft.green { background: var(--green-100); color: var(--green-900); }
+.badge-soft.blue { background: rgba(37, 99, 235, .12); color: #1e3a8a; }
+.badge-soft.gray { background: #e2e8f0; color: #475569; }
+    .badge-soft.yellow { background: rgba(250, 204, 21, .15); color: #78350f; }
+.badge-soft.success { background: rgba(22, 121, 64, .12); color: var(--green-900); }
+.text-green { color: var(--green) !important; }
+.text-navy { color: var(--navy) !important; }
+.text-muted { color: #64748b !important; }
+/* ---- text utilities ---- */
+.text-green { color: var(--green) !important; }
+.text-navy { color: var(--navy) !important; }
+
+/* ---- buttons ---- */
+.btn { font-weight: 500; transition: background-color .18s ease, border-color .18s ease, color .18s ease; }
+.btn-green {
+    background: var(--green); color: #fff; border: none;
+    box-shadow: 0 4px 12px rgba(22, 121, 64, .2);
+}
+.btn-green:hover { background: var(--green-900); }
+.btn-navy { background: var(--navy); color: #fff; border: none; }
+.btn-navy:hover { background: var(--navy-700); }
+.btn-outline-navy {
+    border: 1.5px solid var(--navy); color: var(--navy); background: transparent;
+}
+.btn-outline-navy:hover { background: var(--navy); color: #fff; }
+.btn-outline-danger { border-color: #dc2626; color: #dc2626; }
+.btn-outline-secondary { border-color: #94a3b8; color: #475569; }
+.btn-ghost-danger {
+    background: transparent; color: #dc2626; border: none;
+}
+.btn-ghost-danger:hover { background: rgba(220, 38, 38, .08); }
+
+/* ---- navbar ---- */
+.site-navbar {
+    position: sticky; top: 0; z-index: 40;
+    background: #fff; border-bottom: 1px solid #e2e8f0;
+    box-shadow: var(--shadow-soft);
+}
+.site-brand {
+    display: flex; align-items: center; gap: .45rem;
+    font-family: 'Poppins', sans-serif; font-weight: 700;
+    font-size: 1.3rem; color: var(--navy);
+}
+.brand-mark { color: var(--green); }
+.site-menu {
+    display: flex; align-items: center; gap: 1.5rem;
+    list-style: none; margin: 0; padding: 0;
+}
+.site-menu a {
+    color: #334155; font-weight: 500;
+    border-bottom: 2px solid transparent;
+    transition: color .18s, border-color .18s;
+}
+.site-menu a:hover,
+.site-menu a.active {
+    color: var(--navy);
+    border-color: var(--green);
+}
+.nav-actions { display: flex; align-items: center; gap: .75rem; }
+
+/* custom hamburger 3-bar (mobile only) */
+.navbar-toggler.custom {
+    display: none; flex-direction: column; justify-content: space-between;
+    width: 38px; height: 30px; background: var(--navy);
+    border-radius: 6px; padding: 0; border: none; cursor: pointer;
+}
+.navbar-toggler.custom .bar {
+    display: block; width: 24px; height: 3px;
+    background: #fff; border-radius: 2px; transition: transform .2s;
+}
+.navbar-toggler.custom[aria-expanded="true"] .bar:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 6px);
+}
+.navbar-toggler.custom[aria-expanded="true"] .bar:nth-child(2) { opacity: 0; }
+.navbar-toggler.custom[aria-expanded="true"] .bar:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* ---- alerts ---- */
+.alert-soft { border: none; border-radius: var(--radius); }
+.alert-soft.success { background: rgba(22, 121, 64, .08); color: #065f46; }
+.alert-soft.danger { background: rgba(185, 28, 28, .08); color: #7f1d1d; }
+.alert-soft.info { background: rgba(37, 99, 235, .08); color: #1e3a8a; }
+
+/* ---- forms ---- */
+.form-control.form-control-sm.is-invalid,
+.form-control.is-invalid {
+    border-color: #ef4444 !important;
+}
+.form-control.is-invalid:focus {
+    box-shadow: 0 0 0 .25rem rgba(239, 68, 68, .18);
+}
+
+/* ---- detail list (profil) ---- */
+.detail-info dt { color: #64748b; font-weight: 600; }
+.detail-info dd { color: #1e293b; margin-bottom: .5rem; }
+
+/* ---- tables ---- */
+.table { margin-bottom: 1rem; }
+.table th { font-weight: 600; color: #33415b; }
+.table td { vertical-align: middle; }
+.table-actions a,
+.table-actions button { font-size: .85rem; }
+.table-responsive { border-radius: var(--radius); overflow: hidden; }
+
+/* ---- pagination ---- */
+.pagination .page-link { color: var(--navy); border-color: #d1d5db; }
+.pagination .page-link.active,
+.pagination .page-link:hover {
+    background: var(--navy); border-color: var(--navy);
+}
+
+/* ---- footer ---- */
+.site-footer {
+    background: #0f172a; color: #cbd5e1;
+    padding: 2.5rem 0 1rem; font-size: .9rem;
+}
+.site-footer a { color: #94a3b8; }
+.site-footer a:hover { color: #fff; }
+.site-footer h6 {
+    color: #f1f5f9; font-weight: 600;
+    font-family: 'Poppins', sans-serif; margin-bottom: 1rem;
+}
+.f-brand {
+    display: flex; align-items: center; gap: .5rem;
+    font-family: 'Poppins', sans-serif; font-weight: 700;
+    font-size: 1.2rem; color: #fff;
+}
+.footer-bottom {
+    border-top: 1px solid #1e293b; margin-top: 1.5rem;
+    padding-top: 1rem; font-size: .82rem; color: #64748b;
+}
+
+/* ==============================
+   RESPONSIVE (mobile-first)
+   ============================== */
+@media (max-width: 576px) {
+    .site-container { padding-inline: .75rem; }
+    .page-header h1 { font-size: 1.5rem; }
+    .page-header .site-container { padding-block: 1.5rem 1.75rem; }
+    .page-body { padding-block: 1.5rem; }
+    .site-menu { gap: 1rem; }
+    .nav-actions { flex-wrap: wrap; gap: .5rem; }
+}
+@media (max-width: 767.98px) {
+    .site-menu {
+        flex-direction: column; gap: .5rem; padding: .5rem 0;
+    }
+    .site-menu a {
+        padding: .4rem .1rem;
+        border-bottom: none;
+        border-left: 3px solid transparent;
+    }
+    .site-menu a:hover,
+    .site-menu a.active {
+        border-left-color: var(--green);
+        border-bottom-color: transparent;
+    }
+    .navbar-toggler.custom { display: flex; }
+    .card.h-100 { margin-bottom: 1rem; }
+    .page-header h1 { font-size: 1.6rem; }
+}
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .site-container { padding-inline: 1rem; }
+}
+@media (max-width: 991.98px) {
+    .table-responsive { overflow-x: auto; }
+}

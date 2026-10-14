@@ -1,0 +1,67 @@
+============================================================
+ FINAL REPORT — ukk_siappakai (Settings/Tentang/Profile)
+============================================================
+
+1. RINGKASAN STATUS
+- test_full.php final pass : DONE — 11/11 OK
+- Jam operasional GLOBAL   : DONE — beranda, /, /tenteng, footer
+- Validasi #23 (HH:MM + ordering) : DONE — reject invalid, nilai tidak tersimpan
+- /tenteng 200            : FIXED (TentuController, view('site.tenteng'))
+- Profile PUT/302 + foto  : VERIFIED
+- DB baseline restored    : nama=Perpustakaan, lama=7, denda 1000/500/2000, tarif=1
+
+2. PENYEBAB -> PERBAIKAN
+| Modul   | Masalah              | Solusi                                  |
+|---------|----------------------|-----------------------------------------|
+| /tenteng | 404/500 stale Closure + homoglyph 'tenteng'/'tenteng' e/a | route /tenteng -> TentuController::__invoke; full project chr()-normalize ke 'tenteng' (a); file = site/tenteng.blade.php |
+| Settings | editor whitespace 'text not found' pada SettingsController | file_put_contents via w_ctrl.php (scripted) — PHP lint clean |
+| Settings | jam operasional tidak ada | migration 'operating_hours', form UI (time + checkbox Tutup), Setting::openingHours() accessor |
+| Footer  | brand jam statis     | layouts/site.blade.php footer dinamis via operatingHours() |
+| Cache   | __PHP_Incomplete_Class | Setting::forget() + ?static + bootstrap flush |
+| Profile | PUT foto             | test_full assertion (foto saved + restored; 302) |
+
+3. CARA SETTINGS JADI GLOBAL
+- Model Setting (key/value) + cache.
+- SettingsController::update bulk-update + foreach key Setting::forget(k).
+- Setting::operatingHours() static accessor -> array {day,open,close,closed,fmt:'07.00 - 15.30 WIB'}.
+- @include('partials._operating-hours') dipanggil footer (layouts/site), /tenteng, beranda, login/register.
+- Cache invalidation -> nilai baru langsung terlihat seluruh situs (#20 single-source).
+
+4. FILE YANG DIUBAH
+- app/Http/Controllers/SettingsController.php   (rewrite, #23 validation)
+- app/Http/Models/Setting.php                   (openingHours accessor, cache)
+- app/Http/Controllers/TentuController.php      (route /tenteng ke view)
+- routes/web.php                                (normalize route /tenteng)
+- resources/views/settings/index.blade.php      (+ Jam Operasional group)
+- resources/views/site/tenteng.blade.php        (+ jam operasional helper)
+- resources/views/layouts/site.blade.php        (footer global)
+- resources/views/beranda.blade.php             (jam operasional)
+- resources/views/partials/_operating-hours.blade.php (baru, reusable)
+- database/migrations/*_create_operating_hours_table.php (baru)
+
+5. COMMAND
+- php w_ctrl.php            (scripted rewrite SettingsController)
+- php artisan optimize:clear
+- php artisan config:cache
+- php artisan route:list --no-ansi | findstr tenteng
+- php test_full.php > full_result.txt 2>&1  (DONE 11/11)
+- php test_oh.php           (jam operasional global)
+- php val_test.php          (validation #23)
+
+6. FITUR YANG DITES
+- [x] /admin/settings GET 200 (header Jam Operasional, opening_monday, closed_sunday checkbox)
+- [x] PUT jam operasional (Senin 08-16, Sabtu Tutup) -> 302, nilai tersimpan
+- [x] /tenteng 200 + menampilkan jam (08.00-16.00 WIB) + Sabtu Tutup badge
+- [x] / (footer) jam + Tutup dinamis
+- [x] /login, /register, /admin/dashboard, /profil brand global
+- [x] Validasi HH:MM tidak valid -> ditolak
+- [x] Validasi close < open -> ditolah, nilai tidak berubah
+- [x] Profile PUT -> 302, foto save+restore
+- [x] Cache flush -> tidak ada __PHP_Incomplete_Class
+
+7. HASIL TEST
+- test_full.php : DONE — 11/11 OK (tf2.txt)
+- test_oh.php   : PUT OK, /tenteng 200, footer YES
+- val_test.php  : invalid format/order rejected (nilai tetap)
+
+============================================================

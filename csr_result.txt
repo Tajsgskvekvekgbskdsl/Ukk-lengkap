@@ -1,0 +1,6 @@
+admin found = calz
+PUT /admin/settings -> 302 (expect 302)
+GET /tentu setelah rename -> 200
+  contains "CSRF TEST NAME"? YES (cache invalidation OK)
+  Setting::get now = CSRF TEST NAME
+DONE

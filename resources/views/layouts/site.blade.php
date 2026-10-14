@@ -1,3 +1,4 @@
+@php $siteName = \App\Models\Setting::siteName(); @endphp
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -5,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title', 'Perpustakaan')</title>
+        <title>@yield('title', $siteName)</title>
 
     <meta name="description"
         content="@yield('meta_description', 'Perpustakaan online untuk mencari koleksi buku, melihat informasi buku, dan mengakses layanan perpustakaan.')">
@@ -28,7 +29,7 @@
         <div class="site-container">
             <a class="site-brand me-auto" href="{{ route('beranda') }}">
                 <span class="brand-mark"><i class="bi bi-book-half"></i></span>
-                <span class="brand-text">Perpustakaan</span>
+                                <span class="brand-text">{{ $siteName }}</span>
             </a>
 
             <button class="navbar-toggler custom border-0" type="button"
@@ -108,7 +109,7 @@
                 <div class="col-md-5">
                     <div class="f-brand">
                         <span class="brand-mark"><i class="bi bi-book-half"></i></span>
-                        <span>Perpustakaan</span>
+                                            <span>{{ $siteName }}</span>
                     </div>
                     <p class="mb-0" style="max-width: 320px;">
                         Sistem Informasi Perpustakaan untuk mencari koleksi buku
@@ -116,11 +117,18 @@
                         meningkatkan minat baca.
                     </p>
                 </div>
-                <div class="col-md-3 col-6">
-                    <h6>Jam Layanan</h6>
-                    <ul>
-                        <li>Senin – Jumat<br>07.00 – 15.30 WIB</li>
-                        <li class="mt-2">Sabtu<br>08.00 – 12.00 WIB</li>
+                                <div class="col-md-3 col-6">
+                    <h6>Jam Operasional</h6>
+                    <ul class="mb-0">
+                        @foreach (\App\Models\Setting::openingHours() as $oh)
+                            <li>{{ $oh['day'] }}<br>
+                                @if ($oh['closed'])
+                                    <span class="badge bg-secondary">Tutup</span>
+                                @else
+                                    {{ $oh['open'] }} &ndash; {{ $oh['close'] }} WIB
+                                @endif
+                            </li>
+                        @endforeach
                     </ul>
                 </div>
                 <div class="col-md-4 col-6">
@@ -131,7 +139,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                &copy; {{ date('Y') }} Perpustakaan — Sistem Informasi Perpustakaan.
+                                &copy; {{ date('Y') }} {{ $siteName }} — Sistem Informasi Perpustakaan.
             </div>
         </div>
     </footer>
